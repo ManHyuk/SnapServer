@@ -124,5 +124,5 @@ exports.login = (user_data) => {
       })
 
     })
-  });;
+  });
 };
