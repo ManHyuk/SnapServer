@@ -1,10 +1,9 @@
 'use strict';
 
-const reviewModel = require('../models/reviewModel');
+const reviewModel = require('../models/ReviewModel');
 
 
 exports.write = async (req, res, next) => {
-
 
   //TODO params check!!!
   // if (!req.params.resume_idx || !req.body.contents){
@@ -13,12 +12,15 @@ exports.write = async (req, res, next) => {
   //     "message": "Invalid Parameter"
   //   });
   // } else {
+
     let result ='';
+
 
     try {
       const review_data = {
         // user_idx: req.user_idx,
         //TODO user_idx 변경할것
+        // user_uuid: req.header.uuid,
         user_idx: 1,
         resume_idx:req.params.resume_idx,
         review_contents: req.body.contents
@@ -28,6 +30,7 @@ exports.write = async (req, res, next) => {
     }catch (error){
       return next(error);
     }
+
 
     return res.json({
       "status":true,
