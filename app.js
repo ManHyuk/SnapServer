@@ -6,6 +6,8 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const log = require('./logger');
+
 
 
 
@@ -31,23 +33,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 require('./routes')(app);
 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  let err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+const errors = require('./errors');
+
+app.use((err, req, res, next) => {
+  let status, e;
+
+  if (typeof err == 'number') {
+    if (err == 9401) {
+      log.error(`[ERROR param] [${req.path}] param ===>\n`, req.body);
+    }
+    e = errors[err];  // Error 메세지 호출
+    status = e.status;
+  } else if(err) {
+    e = errors[500];
+    status = e.status;
+    log.error(`[ERROR Handler][${req.path}] Error code or message ===>\n`, err);
+  }
+
+  return res.status(status).json({
+    status: [{
+      code: e.code,
+      message: e.message
+    }]
+  });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 // Server Port Set
 const PORT = 3000;

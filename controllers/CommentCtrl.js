@@ -1,6 +1,6 @@
 'use strict';
 
-const commentModel = require('../models/commentModel');
+const commentModel = require('../models/CommentModel');
 
 
 exports.write = async (req, res, next) => {

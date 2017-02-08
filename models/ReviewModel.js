@@ -12,11 +12,12 @@ exports.write = (review_data) => {
   return new Promise((resolve, reject) => {
 
 
-    console.log(review_data);
+
     const sql =
       "INSERT INTO review(user_idx, resume_idx, review_contents) " +
-      "VALUES (?, ?, ?) ";
+      "VALUES (?, ?, ? ) ";
 
+    console.log(review_data);
     pool.query(sql, [review_data.user_idx, review_data.resume_idx, review_data.review_contents], (err, rows)=> {
       if (err){
         reject(err);

@@ -1,6 +1,6 @@
 'use strict';
 
-const searchModel = require('../models/searchModel');
+const searchModel = require('../models/SearchModel');
 
 
 exports.search = async (req, res, next) => {
